@@ -1,15 +1,15 @@
-package fr.uge.poo.paint.ex5;
+package fr.uge.poo.paint.ex6;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
-public class Rectangle extends AbstractEllipseOrRectangle {
-    Rectangle(int x, int y, int width, int height) {
+public class Ellipse extends AbstractEllipseOrRectangle {
+    Ellipse(int x, int y,  int width, int height) {
         super(x, y, width, height);
     }
 
     @Override
     public String toString() {
-        return "Rectangle{" +
+        return "Ellipse{" +
                 "x=" + x +
                 ", y=" + y +
                 ", width=" + width +
@@ -19,6 +19,6 @@ public class Rectangle extends AbstractEllipseOrRectangle {
 
     @Override
     public void draw(Graphics2D graphics) {
-        graphics.drawRect(x, y, width, height);
+        graphics.drawOval(x, y, width, height);
     }
 }

@@ -1,6 +1,4 @@
-package fr.uge.poo.paint.ex5;
-
-import java.awt.Graphics2D;
+package fr.uge.poo.paint.ex8;
 
 public class Ellipse extends AbstractEllipseOrRectangle {
     Ellipse(int x, int y,  int width, int height) {
@@ -18,7 +16,7 @@ public class Ellipse extends AbstractEllipseOrRectangle {
     }
 
     @Override
-    public void draw(Graphics2D graphics) {
-        graphics.drawOval(x, y, width, height);
+    public void draw(Canvas canvas, Canvas.Color c) {
+        canvas.drawEllipse(x, y, width, height, c);
     }
 }

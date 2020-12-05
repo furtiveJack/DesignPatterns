@@ -1,4 +1,4 @@
-package fr.uge.poo.paint.ex5;
+package fr.uge.poo.paint.ex7;
 
 abstract class AbstractEllipseOrRectangle implements Shape {
     final int x;
@@ -18,5 +18,10 @@ abstract class AbstractEllipseOrRectangle implements Shape {
         int centerX = this.x + (width / 2);
         int centerY = this.y + (height / 2);
         return (centerX - x)*(centerX - x) + (centerY - y)*(centerY - y);
+    }
+
+    @Override
+    public WindowsSize getMinSize() {
+        return new WindowsSize(x + width, y + height);
     }
 }
