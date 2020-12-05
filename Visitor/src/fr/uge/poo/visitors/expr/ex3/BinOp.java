@@ -1,4 +1,4 @@
-package fr.uge.poo.visitors.expr;
+package fr.uge.poo.visitors.expr.ex3;
 
 import java.util.Objects;
 import java.util.function.IntBinaryOperator;
@@ -18,7 +18,7 @@ public class BinOp implements Expr {
     }
 
     @Override
-    public int accept(ExprVisitor exprVisitor) {
+    public <T> T accept(ExprVisitor<T> exprVisitor) {
         return exprVisitor.visit(this);
     }
 
@@ -36,10 +36,5 @@ public class BinOp implements Expr {
 
     public IntBinaryOperator getOperator() {
         return operator;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + left + ' ' + opName + ' ' + right + ')';
     }
 }

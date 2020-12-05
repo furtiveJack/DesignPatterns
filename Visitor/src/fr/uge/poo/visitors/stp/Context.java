@@ -31,13 +31,6 @@ public class Context implements STPCommandVisitor {
 
         @Override
         public void onVisitedHello(HelloCmd helloCmd) {
-            var bool = commandsCount.containsKey(helloCmd);
-            if (bool) {
-                System.out.println("Command hello already registered");
-            }
-            else {
-                System.out.println("Command hello not registered yet");
-            }
             commandsCount.compute(helloCmd, (cmd, count) -> (count == null) ? 1 : count+1);
         }
 
@@ -56,11 +49,31 @@ public class Context implements STPCommandVisitor {
             commandsCount.compute(elapsedCmd, (cmd, count) -> (count == null) ? 1 : count+1);
         }
 
+        @Override
         public String getReport() {
             var builder = new StringBuilder();
             commandsCount.forEach((cmd, count) -> builder.append(cmd.getName())
                     .append(" called ").append(count).append(" times.\n"));
             return builder.toString();
+        }
+    }
+
+    static class CmdMeanTimeObserver implements CmdStatObserver {
+        private long meanTime = 0;
+        private int nbCalls = 0;
+
+        @Override
+        public void onVisitedStopWithTime(StopTimerCmd cmd, long elapsed) {
+            meanTime += elapsed;
+            nbCalls++;
+        }
+
+        @Override
+        public String getReport() {
+            if (nbCalls == 0) {
+                return "Timers mean execution time : 0ms (none was started).\n";
+            }
+            return "Timers mean execution time : " + meanTime/nbCalls + "ms.\n";
         }
     }
 

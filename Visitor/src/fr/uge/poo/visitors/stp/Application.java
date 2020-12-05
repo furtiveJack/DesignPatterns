@@ -1,6 +1,7 @@
 package fr.uge.poo.visitors.stp;
 import com.evilcorp.stp.*;
 import fr.uge.poo.visitors.stp.Context.CmdCountObserver;
+import fr.uge.poo.visitors.stp.Context.CmdMeanTimeObserver;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ public class Application {
     public static void main(String[] args) {
         var visitor = new Context();
         visitor.registerObserver(new CmdCountObserver());
+        visitor.registerObserver(new CmdMeanTimeObserver());
         var scan = new Scanner(System.in);
         while(scan.hasNextLine()){
             var line = scan.nextLine();

@@ -1,9 +1,9 @@
-package fr.uge.poo.visitors.expr;
+package fr.uge.poo.visitors.expr.ex3;
 
 import java.util.Iterator;
 
 public interface Expr {
-    int accept(ExprVisitor exprVisitor);
+    <T> T accept(ExprVisitor<T> exprVisitor);
 
     static Expr parseExpr(Iterator<String> it) {
         if (!it.hasNext()) {
