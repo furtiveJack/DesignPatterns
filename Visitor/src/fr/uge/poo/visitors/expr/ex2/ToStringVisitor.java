@@ -1,23 +1,20 @@
 package fr.uge.poo.visitors.expr.ex2;
 
-import java.util.StringJoiner;
-
-public class ToStringVisitor implements ExprVisitor<StringBuilder> {
-
+public class ToStringVisitor implements ExprVisitor<String> {
     @Override
-    public StringBuilder visit(Value value) {
-        System.out.println("getting value : " + value.getValue());
-        return new StringBuilder().append(value.getValue());
+    public String visit(Value value) {
+        return Integer.toString(value.getValue());
     }
 
     @Override
-    public StringBuilder visit(BinOp binOp) {
+    public String visit(BinOp binOp) {
         return new StringBuilder("(")
                 .append(binOp.getLeft().accept(this))
                 .append(' ')
                 .append(binOp.getOpName())
                 .append(' ')
                 .append(binOp.getRight().accept(this))
-                .append(')');
+                .append(')')
+                .toString();
     }
 }
