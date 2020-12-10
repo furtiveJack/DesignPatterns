@@ -48,10 +48,13 @@ public class CmdLineParser {
             action.accept(args);
         }
 
-        private static class Builder {
+        static class Builder {
             private String name;
             private int nbParams = 0;
             private Consumer<List<String>> action;
+
+            public Builder() {
+            }
 
             public Builder(String name, int nbParams, Consumer<List<String>> action) {
                 Objects.requireNonNull(name);
@@ -93,6 +96,17 @@ public class CmdLineParser {
 
     private final HashMap<String, Option> registeredOptions = new HashMap<>();
 
+    static public Option.Builder getOptionBuilder() {
+        return new Option.Builder();
+    }
+
+    public void addOption(Option opt) {
+        Objects.requireNonNull(opt);
+        if (registeredOptions.containsKey(opt.name)) {
+            throw new IllegalArgumentException("Option " + opt.name + " already registered");
+        }
+        registeredOptions.put(opt.name, opt);
+    }
     /**
      * Register an option to parse on the command line.
      * @param option - the name of the option.
@@ -110,7 +124,7 @@ public class CmdLineParser {
         registeredOptions.put(option, opt);
     }
 
-    public void addOptionOneParameter(String option, Consumer<String> consumer) {
+    public void addOptionWithOneParameter(String option, Consumer<String> consumer) {
         Objects.requireNonNull(option);
         Objects.requireNonNull(consumer);
         if (registeredOptions.containsKey(option)) {

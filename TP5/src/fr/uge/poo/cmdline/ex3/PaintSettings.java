@@ -1,6 +1,6 @@
 package fr.uge.poo.cmdline.ex3;
 
-public class PaintOptions {
+public class PaintSettings {
     private boolean legacy;
     private boolean bordered;
     private int borderWidth;
@@ -8,7 +8,7 @@ public class PaintOptions {
     private int minSizeX;
     private int minSizeY;
 
-    private PaintOptions(String name, boolean legacy, boolean bordered, int borderWidth, int minSizeX, int minSizeY) {
+    private PaintSettings(String name, boolean legacy, boolean bordered, int borderWidth, int minSizeX, int minSizeY) {
         this.windowName = name;
         this.legacy = legacy;
         this.bordered = bordered;
@@ -23,7 +23,7 @@ public class PaintOptions {
                 + " borderWidth = " + borderWidth + " windowName = " + windowName+" ]";
     }
 
-    public static class PaintOptionsBuilder {
+    public static class PaintSettingsBuilder {
         private boolean legacy = false;
         private boolean bordered = false;
         private int borderWidth = 0;
@@ -31,37 +31,37 @@ public class PaintOptions {
         private int minSizeX = 500;
         private int minSizeY = 500;
 
-        public PaintOptionsBuilder setLegacy(boolean legacy) {
+        public PaintSettingsBuilder setLegacy(boolean legacy) {
             this.legacy = legacy;
             return this;
         }
 
-        public PaintOptionsBuilder setBordered(boolean bordered) {
+        public PaintSettingsBuilder setBordered(boolean bordered) {
             this.bordered = bordered;
             return this;
         }
 
-        public PaintOptionsBuilder setBorderWidth(int width) {
+        public PaintSettingsBuilder setBorderWidth(int width) {
             this.borderWidth = width;
             return this;
         }
 
-        public PaintOptionsBuilder setWindowName(String name) {
+        public PaintSettingsBuilder setWindowName(String name) {
             this.windowName = name;
             return this;
         }
 
-        public PaintOptionsBuilder setMinSize(int minX, int minY) {
+        public PaintSettingsBuilder setMinSize(int minX, int minY) {
             this.minSizeX = minX;
             this.minSizeY = minY;
             return this;
         }
 
-        public PaintOptions build() {
+        public PaintSettings build() {
             if (windowName == null) {
                 throw new IllegalStateException("Window name can not be null");
             }
-            return new PaintOptions(windowName, legacy, bordered, borderWidth, minSizeX, minSizeY);
+            return new PaintSettings(windowName, legacy, bordered, borderWidth, minSizeX, minSizeY);
         }
 
     }

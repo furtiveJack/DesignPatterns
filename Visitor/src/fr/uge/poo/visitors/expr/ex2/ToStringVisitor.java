@@ -1,20 +1,21 @@
 package fr.uge.poo.visitors.expr.ex2;
 
-public class ToStringVisitor implements ExprVisitor<String> {
+public class ToStringVisitor implements ExprVisitor<StringBuilder> {
+    private final StringBuilder builder = new StringBuilder();
     @Override
-    public String visit(Value value) {
-        return Integer.toString(value.getValue());
+    public StringBuilder visit(Value value) {
+        return builder.append(value.getValue());
     }
 
     @Override
-    public String visit(BinOp binOp) {
-        return new StringBuilder("(")
-                .append(binOp.getLeft().accept(this))
-                .append(' ')
+    public StringBuilder visit(BinOp binOp) {
+        builder.append("(");
+        binOp.getLeft().accept(this);
+        builder.append(' ')
                 .append(binOp.getOpName())
-                .append(' ')
-                .append(binOp.getRight().accept(this))
-                .append(')')
-                .toString();
+                .append(' ');
+        binOp.getRight().accept(this);
+        builder.append(')');
+        return builder;
     }
 }

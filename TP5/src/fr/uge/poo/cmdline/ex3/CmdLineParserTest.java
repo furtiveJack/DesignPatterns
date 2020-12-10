@@ -19,23 +19,23 @@ class CmdLineParserTest {
     @Test
     public void registerShouldFailFastOnNullArgument() {
         var parser = new CmdLineParser();
-        assertThrows(NullPointerException.class, () -> parser.registerOption(null, () -> {}));
-        assertThrows(NullPointerException.class, () -> parser.registerOption("test", null));
-        assertThrows(NullPointerException.class, () -> parser.registerOption(null, null));
+        assertThrows(NullPointerException.class, () -> parser.addFlag(null, () -> {}));
+        assertThrows(NullPointerException.class, () -> parser.addFlag("test", null));
+        assertThrows(NullPointerException.class, () -> parser.addFlag(null, null));
     }
 
     @Test
     public void registerShouldFailFastOnDuplicateArg() {
         var parser = new CmdLineParser();
-        parser.registerOption("test", () -> {});
-        assertThrows(IllegalArgumentException.class, () -> parser.registerOption("test", () -> {}));
+        parser.addFlag("test", () -> {});
+        assertThrows(IllegalArgumentException.class, () -> parser.addFlag("test", () -> {}));
     }
 
     @Test
     public void registerShouldWorkWithOption() {
         var parser = new CmdLineParser();
         final boolean[] runned = new boolean[1];
-        parser.registerOption("-opt", () -> runned[0] = Boolean.TRUE);
+        parser.addFlag("-opt", () -> runned[0] = Boolean.TRUE);
         var res = parser.process(new String[]{"-opt"});
         assertFalse(res.contains(Path.of("-opt")));
         assertTrue(runned[0]);

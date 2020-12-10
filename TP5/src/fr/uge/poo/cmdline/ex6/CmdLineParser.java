@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class CmdLineParser {
 
-    interface OptionsObserver {
+    interface OptionsManagerObserver {
 
         void onRegisteredOption(OptionsManager optionsManager, Option option);
 
@@ -19,7 +19,7 @@ public class CmdLineParser {
         void onFinishedProcess(OptionsManager optionsManager) throws ParseException;
     }
 
-    static class LoggerObserver implements OptionsObserver {
+    static class LoggerObserver implements OptionsManagerObserver {
 
         @Override
         public void onRegisteredOption(OptionsManager optionsManager, Option option) {
@@ -37,7 +37,7 @@ public class CmdLineParser {
         }
     }
 
-    static class MandatoryOptionObserver implements OptionsObserver {
+    static class MandatoryOptionObserver implements OptionsManagerObserver {
         private final List<Option> required = new ArrayList<>();
 
         @Override
@@ -60,7 +60,7 @@ public class CmdLineParser {
         }
     }
 
-    static class DocumentationOptionObserver implements OptionsObserver {
+    static class DocumentationOptionObserver implements OptionsManagerObserver {
         private final HashMap<String, String> optionsDoc = new HashMap<>();
 
         @Override
@@ -107,7 +107,7 @@ public class CmdLineParser {
         }
     }
 
-    static class ConflictsOptionObserver implements OptionsObserver {
+    static class ConflictsOptionObserver implements OptionsManagerObserver {
         private final List<String> conflictsFound = new ArrayList<>();
 
         @Override
@@ -144,7 +144,7 @@ public class CmdLineParser {
 
     private static class OptionsManager {
         private final HashMap<String, Option> byName = new HashMap<>();
-        private final List<OptionsObserver> observers = new ArrayList<>();
+        private final List<OptionsManagerObserver> observers = new ArrayList<>();
 
         OptionsManager(DocumentationOptionObserver docObs) {
             registerObserver(new LoggerObserver());
@@ -194,11 +194,11 @@ public class CmdLineParser {
             notifyProcessFinished();
         }
 
-        void registerObserver(OptionsObserver obs) {
+        void registerObserver(OptionsManagerObserver obs) {
             observers.add(obs);
         }
 
-        void unregisterObserver(OptionsObserver obs) {
+        void unregisterObserver(OptionsManagerObserver obs) {
             if (!observers.remove(obs)) {
                 throw new IllegalStateException();
             }
@@ -456,8 +456,6 @@ public class CmdLineParser {
      *
      * @param arguments - an array of arguments
      * @return - a list of path representing the arguments that were not options.
-     * @throws NullPointerException     if the arguments array is null
-     * @throws IllegalArgumentException if an option miss parameters
      */
     public List<Path> process(String[] arguments) throws ParseException {
         ArrayList<Path> files = new ArrayList<>();

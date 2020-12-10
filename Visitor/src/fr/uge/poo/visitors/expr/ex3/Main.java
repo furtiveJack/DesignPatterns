@@ -15,20 +15,18 @@ public class Main {
                                         binOp.getRight().accept(evalVisitor)
                                 )
                 );
-        ExprVisitor<String> stringVisitor = new ExprVisitor<>();
+        ExprVisitor<StringBuilder> stringVisitor = new ExprVisitor<>();
         stringVisitor
-                .when(Value.class, value -> Integer.toString(value.getValue()))
-                .when(BinOp.class, binOp ->
-                        new StringBuilder()
-                                .append('(')
-                                .append(binOp.getLeft().accept(stringVisitor))
-                                .append(' ')
-                                .append(binOp.getOpName())
-                                .append(' ')
-                                .append(binOp.getRight().accept(stringVisitor))
-                                .append(')')
-                                .toString()
-                );
+                .when(Value.class, value -> stringVisitor.getBuilder().append(Integer.toString(value.getValue())))
+                .when(BinOp.class, binOp -> {
+                    stringVisitor.getBuilder().append('(');
+                    binOp.getLeft().accept(stringVisitor);
+                    stringVisitor.getBuilder().append(' ')
+                            .append(binOp.getOpName())
+                            .append(' ');
+                    binOp.getRight().accept(stringVisitor);
+                    return stringVisitor.getBuilder().append(')');
+                });
 
         Iterator<String> it = Pattern.compile(" ").splitAsStream("+ * 4 + 1 1 + 2 3").iterator();
         Expr expr = Expr.parseExpr(it);

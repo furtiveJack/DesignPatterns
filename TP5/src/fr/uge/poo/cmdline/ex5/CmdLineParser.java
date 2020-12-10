@@ -58,6 +58,8 @@ public class CmdLineParser {
             private int nbParams = 0;
             private Consumer<List<String>> action;
 
+            public Builder() {}
+
             public Builder(String name, int nbParams, Consumer<List<String>> action) {
                 Objects.requireNonNull(name);
                 Objects.requireNonNull(action);
@@ -102,6 +104,10 @@ public class CmdLineParser {
         }
     }
 
+    static public Option.Builder getOptionBuilder() {
+        return new Option.Builder();
+    }
+
     static Option.Builder intOptionBuilder(String name, Consumer<Integer> action) {
         return new Option.Builder(name, 1, l -> {
             if (l == null || l.size() != 1) {
@@ -134,6 +140,7 @@ public class CmdLineParser {
     }
 
     private final HashMap<String, Option> registeredOptions = new HashMap<>();
+
 
     /**
      * Register an option to parse on the command line.

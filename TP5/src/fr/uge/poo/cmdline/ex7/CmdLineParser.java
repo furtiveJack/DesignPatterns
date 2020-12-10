@@ -148,7 +148,7 @@ public class CmdLineParser {
     // -----------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------- OptionsManager  --------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
-    private static class OptionsManager {
+    static class OptionsManager {
         private final HashMap<String, Option> byName = new HashMap<>();
         private final List<OptionsObserver> observers = new ArrayList<>();
 

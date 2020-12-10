@@ -14,7 +14,7 @@ public class CmdLineParser {
      * @throws NullPointerException - if one of the argument is null.
      * @throws IllegalArgumentException - if the option has already been registered.
      */
-    public void registerOption(String option, Runnable runnable) {
+    public void addFlag(String option, Runnable runnable) {
         Objects.requireNonNull(option);
         Objects.requireNonNull(runnable);
         if (registeredOptions.containsKey(option)) {

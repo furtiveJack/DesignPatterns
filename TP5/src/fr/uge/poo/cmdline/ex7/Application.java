@@ -2,6 +2,7 @@ package fr.uge.poo.cmdline.ex7;
 
 import java.nio.file.Path;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Application {

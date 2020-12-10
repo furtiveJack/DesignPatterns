@@ -2,7 +2,6 @@ package fr.uge.poo.cmdline.ex1;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Application {
 
@@ -36,9 +35,9 @@ public class Application {
         var options = new PaintOptions();
         String[] arguments={"-legacy","-no-borders","filename1","filename2"};
         var cmdParser = new CmdLineParser();
-        cmdParser.registerOption("-legacy", () -> options.setLegacy(true));
-        cmdParser.registerOption("-with-borders", () -> options.setBordered(true));
-        cmdParser.registerOption("-no-borders", () -> options.setBordered(false));
+        cmdParser.addFlag("-legacy", () -> options.setLegacy(true));
+        cmdParser.addFlag("-with-borders", () -> options.setBordered(true));
+        cmdParser.addFlag("-no-borders", () -> options.setBordered(false));
         List<Path> files = cmdParser.process(arguments);
 //        List<Path> files = result.stream().map(Path::of).collect(Collectors.toList());
         // this code replaces the rest of the application

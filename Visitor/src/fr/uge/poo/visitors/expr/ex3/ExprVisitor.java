@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 public class ExprVisitor<T> {
     private HashMap<Class<? extends Expr>, Function<Expr,T>> map = new HashMap<>();
+    private final StringBuilder builder = new StringBuilder();
 
     public <E extends Expr>  ExprVisitor<T> when(Class<E> clazz,Function<E,T> function){
         Objects.requireNonNull(clazz);
@@ -24,4 +25,9 @@ public class ExprVisitor<T> {
         }
         return function.apply(expr);
     }
+
+    public StringBuilder getBuilder() {
+        return builder;
+    }
+
 }

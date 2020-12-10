@@ -48,28 +48,41 @@ class CmdLineParserTest {
         assertTrue(res.contains(Path.of("file1")));
     }
 
+
     @Test
-    public void optionShouldWorkWithOneParameters() {
-        var parser = new CmdLineParser();
-        final String[] ran = new String[1];
-        parser.addOptionOneParameter("-opt", arg -> ran[0] = arg);
-        String arg = "optionArgument";
-        var res = parser.process(new String[]{"-opt", arg});
-        assertFalse(res.contains(Path.of("-opt")));
-        assertFalse(res.contains(Path.of(arg)));
-        assertEquals(ran[0], arg);
+    public void addOption1ShouldFailOnDuplicateOption() {
+        var parser = new fr.uge.poo.cmdline.ex2.CmdLineParser();
+        parser.addFlag("test", () -> {
+        });
+        assertThrows(IllegalArgumentException.class, () -> parser.addOptionWithOneParameter("test", (s) -> {
+        }));
     }
 
     @Test
-    public void optionOneParamShouldFailWithMissingParameter() {
-        var parser = new CmdLineParser();
-        final String[] ran = new String[1];
-        parser.addOptionOneParameter("-opt", arg -> ran[0] = arg);
-        String arg = "optionArgument";
-        assertThrows(IllegalArgumentException.class, () -> parser.process(new String[]{"-opt"}));
-        assertNotEquals(ran[0], arg);
-        assertThrows(IllegalArgumentException.class, () -> parser.process(new String[] {"-opt", "-opt2"}));
-        assertNotEquals(ran[0], arg);
+    public void processShouldWorkWithOptionParam() {
+        var parser = new fr.uge.poo.cmdline.ex2.CmdLineParser();
+        final String[] runned = new String[1];
+        parser.addOptionWithOneParameter("-opt", (s) -> runned[0] = s);
+        var res = parser.process(new String[]{"-opt", "executed"});
+        assertFalse(res.contains(Path.of("-opt")));
+        assertEquals("executed", runned[0]);
+    }
+
+    @Test
+    public void processShouldFailOnMissingParam() {
+        var parser = new fr.uge.poo.cmdline.ex2.CmdLineParser();
+        final String[] runned = new String[1];
+        parser.addOptionWithOneParameter("-opt", (s) -> runned[0] = s);
+        assertThrows(IllegalArgumentException.class, () -> parser.process(new String[] {"-opt"}));
+    }
+
+    @Test
+    public void processShouldFailOnMissingParam2() {
+        var parser = new fr.uge.poo.cmdline.ex2.CmdLineParser();
+        final String[] runned = new String[1];
+        parser.addOptionWithOneParameter("-opt", (s) -> runned[0] = s);
+        parser.addFlag("-test", () -> {});
+        assertThrows(IllegalArgumentException.class, () -> parser.process(new String[] {"-opt", "-test"}));
     }
 
     @Test

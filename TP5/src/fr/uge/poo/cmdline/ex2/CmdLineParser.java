@@ -49,7 +49,7 @@ public class CmdLineParser {
      * @throws NullPointerException - if one the argument is null.
      * @throws IllegalArgumentException - if the option has already been registered.
      */
-    public void registerOption(String option, Runnable runnable) {
+    public void addFlag(String option, Runnable runnable) {
         Objects.requireNonNull(option);
         Objects.requireNonNull(runnable);
         if (registeredOptions.containsKey(option)) {
@@ -60,7 +60,7 @@ public class CmdLineParser {
         registeredOptions.put(option, opt);
     }
 
-    public void registerOptionWithParameter(String option, Consumer<String> consumer) {
+    public void addOptionWithOneParameter(String option, Consumer<String> consumer) {
         Objects.requireNonNull(option);
         Objects.requireNonNull(consumer);
         if (registeredOptions.containsKey(option)) {
@@ -109,6 +109,14 @@ public class CmdLineParser {
                 files.add(Path.of(argument));
             }
         }
+        if (parsingOption) {
+            if (opt.currentIndex == opt.nbParam) {
+                opt.exec();
+            } else {
+                throw new IllegalArgumentException("Missing parameter for option " + opt.name);
+            }
+        }
+
         return files;
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Application {
 
-    static private class PaintOptions{
+    static private class PaintSettings {
         private boolean legacy=false;
         private boolean bordered=true;
         private int borderWith = 0;
@@ -44,14 +44,14 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        var options = new PaintOptions();
+        var options = new PaintSettings();
         String[] arguments={"-legacy","filename3", "-no-borders", "-window-name", "WINDOW", "-border-width", "15", "filename1","filename2"};
         var cmdParser = new CmdLineParser();
-        cmdParser.registerOption("-legacy", () -> options.setLegacy(true));
-        cmdParser.registerOption("-with-borders", () -> options.setBordered(true));
-        cmdParser.registerOption("-no-borders", () -> options.setBordered(false));
-        cmdParser.registerOptionWithParameter("-border-width", options::setBorderWith);
-        cmdParser.registerOptionWithParameter("-window-name", options::setWindowName);
+        cmdParser.addFlag("-legacy", () -> options.setLegacy(true));
+        cmdParser.addFlag("-with-borders", () -> options.setBordered(true));
+        cmdParser.addFlag("-no-borders", () -> options.setBordered(false));
+        cmdParser.addOptionWithOneParameter("-border-width", options::setBorderWith);
+        cmdParser.addOptionWithOneParameter("-window-name", options::setWindowName);
         List<Path> files = cmdParser.process(arguments);
 //        List<Path> files = result.stream().map(Path::of).collect(Collectors.toList());
         // this code replaces the rest of the application
